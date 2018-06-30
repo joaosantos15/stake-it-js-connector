@@ -270,5 +270,4 @@ let abi = [
     'type': 'event'
   }
 ]
-
 exports.abi = abi
