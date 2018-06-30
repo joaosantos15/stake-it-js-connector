@@ -1,6 +1,8 @@
 exports = module.exports
 let jsConnector = require('./js-connector.js')
 
+exports.init = jsConnector.init
+
 /*
 input: (party2Address:string(ethereum wallet address), judgeAddress:string(ethereum wallet address), tweetId:string, stakeValue:number)
 output: none

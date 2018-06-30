@@ -42,7 +42,8 @@ function connectToContract () {
   })
 }
 
-function init (contractAddress) {
+function init (contractAddress, _testing) {
+  var testing = _testing
   return new Promise((resolve, reject) => {
     connectToNode(contractAddress).then(connectToContract).then(resolve)
   })
@@ -196,7 +197,6 @@ let tweetId = 'zxcv'
 let inEth = 1
 let toWei = 1000000000000000000
 let value = inEth * toWei
-let testing = true
 
 let CA = '0x559f7e775c8386e909d839b4f29d4d16b1fa7924'
 
