@@ -20,10 +20,17 @@ output: none
 exports.judgeSettles = jsConnector.judgeSettles
 
 /*
-input: (currentUserAddress:string(ethereum wallet address), tweetId:string(sha3))
-output: boolean
+Type: Object
+input: (party1, party2, judge, tweetId, stake, confirmed)
+output: Statement
 */
-exports.checkIfCurrentUserIsJudgeOfTweet = jsConnector.checkIfCurrentUserIsJudgeOfTweet
+exports.Statement = jsConnector.Statement
+
+/*
+input: tweetId
+output: Statement
+*/
+exports.getStatementForTweet = jsConnector.getStatementForTweet
 
  /*
 function(party2Address, judgeAddress, tweetId, stakeValue)
@@ -32,3 +39,8 @@ function(tweetId, winner, draw); // draw is a boolean
 function(currentUserAddress, tweetId)
 
  */
+/*
+input: (currentUserAddress:string(ethereum wallet address), tweetId:string(sha3))
+output: boolean
+*/
+// exports.checkIfCurrentUserIsJudgeOfTweet = jsConnector.checkIfCurrentUserIsJudgeOfTweet

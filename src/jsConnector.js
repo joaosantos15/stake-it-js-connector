@@ -17,11 +17,11 @@ function connectToNode (contractAddress) {
       console.log('Using default ethereumRPC')
       let ethereumRPCAddress = 'http://localhost:7545'
 
-    // set the provider you want from Web3.providers
+			// set the provider you want from Web3.providers
       web3 = new Web3(new Web3.providers.HttpProvider(ethereumRPCAddress))
-  // console.alert('You need to have a Web3 provider. Try Metamask.')
+			// console.alert('You need to have a Web3 provider. Try Metamask.')
     }
-    // const CONTRACT_ADDRESS = '0x01ffefba4281b08a4f66b77359c244ba665bbbf2'
+		// const CONTRACT_ADDRESS = '0x01ffefba4281b08a4f66b77359c244ba665bbbf2'
     CONTRACT_ADDRESS = contractAddress
 
     mySenderAddress = web3.eth.accounts[0]
@@ -116,16 +116,53 @@ function judgeSettles (tweetId, winner) {
   })
 }
 
+function getStatementForTweet (tweetId) {
+  let emptyAccount = '0x0000000000000000000000000000000000000000'
+  return new Promise((resolve, reject) => {
+    BetInstance.statementsList(tweetId, function (error, result) {
+      if (error) {
+        reject(error)
+      }
+			// console.log('RES' + result)
+      if (result[0] === emptyAccount) {
+        resolve(false)
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+function Statement (party1, party2, judge, tweetId, stake, confirmed) {
+  this.party1 = party1
+  this.party2 = party2
+  this.judge = judge
+  this.tweetId = tweetId
+  this.stake = stake
+  this.confirmed = confirmed
+
+  this.isJudgeOfTweet = function (judgeAddress) {
+    return judgeAddress === this.judge
+  }
+
+  this.isSettled = function (tweetId) {
+    return this.confirmed
+  }
+}
+
 // exports.connectToContract = connectToContract
 exports.init = init
+exports.createStatement = createStatement
+exports.confirmStatement = confirmStatement
 exports.judgeSettles = judgeSettles
 exports.judgeSettlesDraw = judgeSettlesDraw
-exports.confirmStatement = confirmStatement
-exports.createStatement = createStatement
+
+exports.getStatementForTweet = getStatementForTweet
+exports.Statement = Statement
 
 /*
 
-  THIS IS ALL FOR TESTING
+THIS IS ALL FOR TESTING
 
 */
 
@@ -165,9 +202,23 @@ let CA = '0x559f7e775c8386e909d839b4f29d4d16b1fa7924'
 
 /*
 init(CA).then(val => {
-  // createStatement(accounts[1], accounts[2], tweetId, value).then(console.log).catch(console.error)
-  //confirmStatement(tweetId, value).then(console.log).catch(console.error)
-  // judgeSettlesDraw(tweetId).then(console.log).catch(console.error)
-  judgeSettles(tweetId, accounts[1]).then(console.log).catch(console.error)
+	// createStatement(accounts[1], accounts[2], tweetId, value).then(console.log).catch(console.error)
+  getStatementForTweet(tweetId).then(value => {
+	  if (!value) {
+		  return
+	  }
+    let party1 = value[0]
+    let party2 = value[1]
+    let judge = value[2]
+		// let tweetIdHex = value[3]
+    let stake = value[4]
+    let confirmed = value[5]
+
+    let thisStatement = new Statement(party1, party2, judge, tweetId, stake, confirmed)
+    console.log(thisStatement)
+  }).catch(console.error)
+	// confirmStatement(tweetId, value).then(console.log).catch(console.error)
+	// judgeSettlesDraw(tweetId).then(console.log).catch(console.error)
+	// judgeSettles(tweetId, accounts[1]).then(console.log).catch(console.error)
 })
 */
