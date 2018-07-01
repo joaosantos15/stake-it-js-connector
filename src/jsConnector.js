@@ -199,7 +199,7 @@ mock accounts:
 1:  0x0D0963f22D2491CA534d2F3aE3549Ec9CdD01571
 0:  0x629573ad5A234A921628bF6BFD545949CA8b6eEd
 */
-
+/*
 let tweetId = 'zxcv'
 let inEth = 1
 let toWei = 1000000000000000000
@@ -226,4 +226,4 @@ init(CA, true).then(val => {
 	// confirmStatement(tweetId, value).then(console.log).catch(console.error)
 	// judgeSettlesDraw(tweetId).then(console.log).catch(console.error)
 	// judgeSettles(tweetId, accounts[1]).then(console.log).catch(console.error)
-})
+// })
