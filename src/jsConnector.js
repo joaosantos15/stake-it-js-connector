@@ -29,10 +29,10 @@ function connectToNode (contractAddress, _web3) {
     web3 = _web3
     CONTRACT_ADDRESS = contractAddress
 
-    accounts = web3.eth.accounts
-    mySenderAddress = web3.eth.accounts[0]
-    web3.eth.defaultAccount = mySenderAddress
-    resolve(mySenderAddress)
+    // accounts = web3.eth.accounts
+    // mySenderAddress = web3.eth.accounts[0]
+    // web3.eth.defaultAccount = mySenderAddress
+    resolve()
   })
 }
 
@@ -68,7 +68,7 @@ function createStatement (party2Address, judgeAddress, tweetId, stakeValue) {
       party2Address,
       judgeAddress,
       tweetId,
-      { from: accounts[0], value: stakeValue, gas: 1280110 },
+      { value: stakeValue, gas: 1280110 },
       function (error, result) {
         if (error) {
           reject(error)
