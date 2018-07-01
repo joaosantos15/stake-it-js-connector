@@ -10,8 +10,9 @@ var BetInstance
 let web3
 let accounts
 
-function connectToNode (contractAddress) {
+function connectToNode (contractAddress, _web3) {
   return new Promise(function (resolve, reject) {
+    /*
     if (typeof web3 !== 'undefined') {
       web3 = new Web3(web3.currentProvider)
       resolve()
@@ -24,6 +25,8 @@ function connectToNode (contractAddress) {
       // console.alert('You need to have a Web3 provider. Try Metamask.')
     }
     // const CONTRACT_ADDRESS = '0x01ffefba4281b08a4f66b77359c244ba665bbbf2'
+    */
+    web3 = _web3
     CONTRACT_ADDRESS = contractAddress
 
     accounts = web3.eth.accounts
