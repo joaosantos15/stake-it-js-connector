@@ -1,4 +1,3 @@
-const fs = require('fs')
 const Web3 = require('web3')
 
 let abiFile = require('./bet-contract-abi.js')
@@ -41,9 +40,9 @@ function connectToContract () {
     resolve(BetInstance)
   })
 }
-
+var testing
 function init (contractAddress, _testing) {
-  var testing = _testing
+  testing = _testing
   return new Promise((resolve, reject) => {
     connectToNode(contractAddress).then(connectToContract).then(resolve)
   })
@@ -200,10 +199,9 @@ let value = inEth * toWei
 
 let CA = '0x559f7e775c8386e909d839b4f29d4d16b1fa7924'
 
-/*
-init(CA).then(val => {
-	// createStatement(accounts[1], accounts[2], tweetId, value).then(console.log).catch(console.error)
-  getStatementForTweet(tweetId).then(value => {
+init(CA, true).then(val => {
+  createStatement(accounts[1], accounts[2], tweetId, value).then(console.log).catch(console.error)
+  /* getStatementForTweet(tweetId).then(value => {
 	  if (!value) {
 		  return
 	  }
@@ -216,9 +214,8 @@ init(CA).then(val => {
 
     let thisStatement = new Statement(party1, party2, judge, tweetId, stake, confirmed)
     console.log(thisStatement)
-  }).catch(console.error)
+	  }).catch(console.error) */
 	// confirmStatement(tweetId, value).then(console.log).catch(console.error)
 	// judgeSettlesDraw(tweetId).then(console.log).catch(console.error)
 	// judgeSettles(tweetId, accounts[1]).then(console.log).catch(console.error)
 })
-*/
