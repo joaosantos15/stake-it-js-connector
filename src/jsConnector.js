@@ -7,7 +7,7 @@ let CONTRACT_ADDRESS
 let mySenderAddress
 let testing
 var BetInstance
-let web3
+// let web3
 let accounts
 
 function connectToNode (contractAddress, _web3) {
@@ -26,7 +26,14 @@ function connectToNode (contractAddress, _web3) {
     }
     // const CONTRACT_ADDRESS = '0x01ffefba4281b08a4f66b77359c244ba665bbbf2'
     */
-    web3 = _web3
+    if (typeof web3 !== 'undefined') {
+    // Use the browser's ethereum provider
+      web3 = new Web3(web3.currentProvider)
+      console.log('Using metamask!')
+    } else {
+      console.log('No web3? You should consider trying MetaMask!')
+    }
+    // web3 = _web3
     CONTRACT_ADDRESS = contractAddress
 
     // accounts = web3.eth.accounts
