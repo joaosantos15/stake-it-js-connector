@@ -1,5 +1,5 @@
 exports = module.exports;
-let jsConnector = require("./src/js-connector.js");
+let jsConnector = require("./src/jsConnector.js");
 
 exports.init = jsConnector.init;
 
