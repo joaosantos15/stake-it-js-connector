@@ -5,7 +5,10 @@ let ABI = abiFile.abi
 
 let CONTRACT_ADDRESS
 let mySenderAddress
+let testing
 var BetInstance
+let web3
+let accounts
 
 function connectToNode (contractAddress) {
   return new Promise(function (resolve, reject) {
@@ -14,15 +17,16 @@ function connectToNode (contractAddress) {
       resolve()
     } else {
       console.log('Using default ethereumRPC')
-      let ethereumRPCAddress = 'http://localhost:7545'
+      let ethereumRPCAddress = 'http://localhost:8545'
 
-			// set the provider you want from Web3.providers
+      // set the provider you want from Web3.providers
       web3 = new Web3(new Web3.providers.HttpProvider(ethereumRPCAddress))
-			// console.alert('You need to have a Web3 provider. Try Metamask.')
+      // console.alert('You need to have a Web3 provider. Try Metamask.')
     }
-		// const CONTRACT_ADDRESS = '0x01ffefba4281b08a4f66b77359c244ba665bbbf2'
+    // const CONTRACT_ADDRESS = '0x01ffefba4281b08a4f66b77359c244ba665bbbf2'
     CONTRACT_ADDRESS = contractAddress
 
+    accounts = web3.eth.accounts
     mySenderAddress = web3.eth.accounts[0]
     web3.eth.defaultAccount = mySenderAddress
     resolve(mySenderAddress)
@@ -40,37 +44,45 @@ function connectToContract () {
     resolve(BetInstance)
   })
 }
-var testing
+
 function init (contractAddress, _testing) {
   testing = _testing
   return new Promise((resolve, reject) => {
-    connectToNode(contractAddress).then(connectToContract).then(resolve)
+    connectToNode(contractAddress)
+      .then(connectToContract)
+      .then(resolve)
   })
 }
 
 function createStatement (party2Address, judgeAddress, tweetId, stakeValue) {
   return new Promise((resolve, reject) => {
     if (testing) {
-      parameters = {from: accounts[0], value: stakeValue, gas: 1280110}
+      parameters = { from: accounts[0], value: stakeValue, gas: 1280110 }
     } else {
-      parameters = {value: stakeValue, gas: 1280110}
+      parameters = { value: stakeValue, gas: 1280110 }
     }
-    BetInstance.createStatement(party2Address, judgeAddress, tweetId, {from: accounts[0], value: stakeValue, gas: 1280110}, function (error, result) {
-      if (error) {
-        reject(error)
-      } else {
-        resolve()
+    BetInstance.createStatement(
+      party2Address,
+      judgeAddress,
+      tweetId,
+      { from: accounts[0], value: stakeValue, gas: 1280110 },
+      function (error, result) {
+        if (error) {
+          reject(error)
+        } else {
+          resolve()
+        }
       }
-    })
+    )
   })
 }
 
 function confirmStatement (tweetId, stakeValue) {
   return new Promise((resolve, reject) => {
     if (testing) {
-      parameters = {from: accounts[1], value: stakeValue, gas: 1280110}
+      parameters = { from: accounts[1], value: stakeValue, gas: 1280110 }
     } else {
-      parameters = {value: stakeValue, gas: 1280110}
+      parameters = { value: stakeValue, gas: 1280110 }
     }
     BetInstance.confirmStatement(tweetId, parameters, function (error, result) {
       if (error) {
@@ -85,9 +97,9 @@ function confirmStatement (tweetId, stakeValue) {
 function judgeSettlesDraw (tweetId) {
   return new Promise((resolve, reject) => {
     if (testing) {
-      parameters = {from: accounts[2], gas: 1280110}
+      parameters = { from: accounts[2], gas: 1280110 }
     } else {
-      parameters = {gas: 1280110}
+      parameters = { gas: 1280110 }
     }
     BetInstance.judgeSettlesDraw(tweetId, parameters, function (error, result) {
       if (error) {
@@ -102,11 +114,14 @@ function judgeSettlesDraw (tweetId) {
 function judgeSettles (tweetId, winner) {
   return new Promise((resolve, reject) => {
     if (testing) {
-      parameters = {from: accounts[2], gas: 1280110}
+      parameters = { from: accounts[2], gas: 1280110 }
     } else {
-      parameters = {gas: 1280110}
+      parameters = { gas: 1280110 }
     }
-    BetInstance.judgeSettles(tweetId, winner, parameters, function (error, result) {
+    BetInstance.judgeSettles(tweetId, winner, parameters, function (
+      error,
+      result
+    ) {
       if (error) {
         reject(error)
       } else {
@@ -123,7 +138,7 @@ function getStatementForTweet (tweetId) {
       if (error) {
         reject(error)
       }
-			// console.log('RES' + result)
+      // console.log('RES' + result)
       if (result[0] === emptyAccount) {
         resolve(false)
       } else {
@@ -181,16 +196,6 @@ mock accounts:
 1:  0x0D0963f22D2491CA534d2F3aE3549Ec9CdD01571
 0:  0x629573ad5A234A921628bF6BFD545949CA8b6eEd
 */
-
-let accounts =
-  [
-    '0x629573ad5A234A921628bF6BFD545949CA8b6eEd',
-    '0x0D0963f22D2491CA534d2F3aE3549Ec9CdD01571',
-    '0x76CC77f2627e4bfFf1Dc7a88f4c80a632894F0E2',
-    '0xa2aB1AC4862E3E04Bb3E6100C41631eAFc011877',
-    '0x37A8cA1312c3b7f1f4e0b7B08C6633F1d747E3fe',
-    '0x219C32A3Add86913fCF259cE938378f07779d702'
-  ]
 
 let tweetId = 'zxcv'
 let inEth = 1
