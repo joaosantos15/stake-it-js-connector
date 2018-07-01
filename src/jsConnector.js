@@ -1,4 +1,4 @@
-const Web3 = require('web3')
+// const Web3 = require('web3')
 
 let abiFile = require('./bet-contract-abi.js')
 let ABI = abiFile.abi
