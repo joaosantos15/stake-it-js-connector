@@ -48,10 +48,10 @@ function connectToContract () {
   })
 }
 
-function init (contractAddress, _testing) {
+function init (contractAddress, _testing, _web3) {
   testing = _testing
   return new Promise((resolve, reject) => {
-    connectToNode(contractAddress)
+    connectToNode(contractAddress, _web3)
       .then(connectToContract)
       .then(resolve)
   })
